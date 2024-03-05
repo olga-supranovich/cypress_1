@@ -1,7 +1,9 @@
 describe("Check links in header menu", () => {
+  const baseUrl = Cypress.config("baseUrl");
+  const username = Cypress.env("username");
+  const password = Cypress.env("password");
+
   beforeEach(() => {
-    const username = "olga_su";
-    const password = "olga_su";
     cy.visit("");
     cy.contains("Account").click();
     cy.contains("Sign in").click();
@@ -14,30 +16,50 @@ describe("Check links in header menu", () => {
     cy.contains("Entities").click();
     cy.contains("Task").click();
     cy.url().should("contain", "/task");
+    cy.contains("Tasks").should("be.visible");
     cy.contains("Create a new Task").should("be.visible");
+    cy.contains("Refresh list").should("be.visible");
   });
 
   it("Entities>User Task", () => {
     cy.contains("Entities").click();
     cy.contains("User Task").click();
     cy.url().should("contain", "/user-task");
+    cy.contains("User Tasks").should("be.visible");
     cy.contains("Create a new User Task").should("be.visible");
+    cy.contains("Refresh list").should("be.visible");
   });
 
   it("Swagger>API", () => {
     cy.contains("Swagger").click();
     cy.contains("API").click();
     cy.url().should("contain", "/docs/docs");
-    cy.get("iframe").should("be.visible");
+    cy.get("iframe")
+      .its("0.contentDocument.body")
+      .should("not.be.empty")
+      .then(cy.wrap)
+      .within(() => {
+        cy.get(".servers select").should(
+          "have.text",
+          `${baseUrl} - Generated server url`
+        );
+        cy.get(".swagger-ui .title", { timeout: 10000 }).should(
+          "contain",
+          "OpenAPI definition"
+        );
+      });
   });
 
-  it("Home", () => {
+  it.only("Home", () => {
+    //navigate first to Tasks page
     cy.contains("Entities").click();
     cy.contains("Task").click();
     cy.contains("Create a new Task").should("be.visible");
+    //navidate back to Home page
     cy.contains("Home").click();
     cy.url().should("not.contain", "/task");
     cy.contains("Create a new Task").should("not.exist");
+    cy.contains("Refresh list").should("not.exist");
   });
 
   context("check languages", () => {
@@ -84,14 +106,14 @@ describe("Check links in header menu", () => {
     cy.contains("Account").click();
     cy.contains("Settings").click();
     cy.url().should("contain", "/account/settings");
-    cy.contains(`User settings for`).should("be.visible");
+    cy.contains(`User settings for [${username}]`).should("be.visible");
   });
 
-  it("Account>Password", () => {
+  it.only("Account>Password", () => {
     cy.contains("Account").click();
     cy.contains("Password").click();
     cy.url().should("contain", "/account/password");
-    cy.contains(`Password for`).should("be.visible");
+    cy.contains(`Password for [${username}]`).should("be.visible");
   });
 
   it("Account>Sign out", () => {
@@ -100,5 +122,4 @@ describe("Check links in header menu", () => {
     cy.url().should("contain", "/logout");
     cy.contains(`Logged out successfully!`).should("be.visible");
   });
-
 });

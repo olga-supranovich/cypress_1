@@ -50,7 +50,7 @@ describe("Check links in header menu", () => {
       });
   });
 
-  it.only("Home", () => {
+  it("Home", () => {
     //navigate first to Tasks page
     cy.contains("Entities").click();
     cy.contains("Task").click();
@@ -109,7 +109,7 @@ describe("Check links in header menu", () => {
     cy.contains(`User settings for [${username}]`).should("be.visible");
   });
 
-  it.only("Account>Password", () => {
+  it("Account>Password", () => {
     cy.contains("Account").click();
     cy.contains("Password").click();
     cy.url().should("contain", "/account/password");

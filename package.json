@@ -6,7 +6,10 @@
   "scripts": {
     "cy:open": "npx cypress open",
     "cy:run": "npx cypress run",
-    "cy:dashboard": "npx cypress run --record --key f3e65b6c-cc36-4439-a011-b998c5093094"
+    "cy:dashboard": "npm run cy:run -- --record --key f3e65b6c-cc36-4439-a011-b998c5093094",
+    "cy:staging:dashboard": "npm run cy:dashboard -- --config-file cypress-staging.config.js",
+    "cy:open:staging": "npm run cy:open -- --config-file cypress-staging.config.js"
+
   },
   "author": "osupranovich",
   "license": "ISC",

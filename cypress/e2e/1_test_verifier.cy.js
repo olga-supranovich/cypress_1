@@ -1,6 +1,6 @@
-describe("first test for verifier app", () => {
+describe("check", () => {
   it("load verifier app", () => {
-    cy.visit("https://sqlverifier-live-6e21ca0ed768.herokuapp.com/");
+    cy.visit("");
     cy.get(".brand-title span").should('contain', 'Sqlverifier');
   });
 });

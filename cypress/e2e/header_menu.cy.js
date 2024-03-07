@@ -4,122 +4,111 @@ describe("Check links in header menu", () => {
   const password = Cypress.env("password");
 
   beforeEach(() => {
-    cy.visit("");
-    cy.contains("Account").click();
-    cy.contains("Sign in").click();
-    cy.get("#username").type(`${username}`);
-    cy.get("#password").type(`${password}`);
-    cy.get("[type=submit]").click();
+    cy.login(username, password);
   });
 
   it("Entities>Task", () => {
-    cy.contains("Entities").click();
-    cy.contains("Task").click();
-    cy.url().should("contain", "/task");
-    cy.contains("Tasks").should("be.visible");
-    cy.contains("Create a new Task").should("be.visible");
-    cy.contains("Refresh list").should("be.visible");
+    cy.clickMenu("Entities");
+    cy.clickMenu("Task");
+    cy.checkUrl("/task");
+    cy.checkElementVisible("Tasks");
+    cy.checkElementVisible("Create a new Task");
+    cy.checkElementVisible("Refresh list");
   });
 
   it("Entities>User Task", () => {
-    cy.contains("Entities").click();
-    cy.contains("User Task").click();
-    cy.url().should("contain", "/user-task");
-    cy.contains("User Tasks").should("be.visible");
-    cy.contains("Create a new User Task").should("be.visible");
-    cy.contains("Refresh list").should("be.visible");
+    cy.clickMenu("Entities");
+    cy.clickMenu("User Task");
+    cy.checkUrl("/user-task");
+    cy.checkElementVisible("User Tasks");
+    cy.checkElementVisible("Create a new User Task");
+    cy.checkElementVisible("Refresh list");
   });
 
   it("Swagger>API", () => {
-    cy.contains("Swagger").click();
-    cy.contains("API").click();
-    cy.url().should("contain", "/docs/docs");
-    cy.get("iframe")
-      .its("0.contentDocument.body")
-      .should("not.be.empty")
-      .then(cy.wrap)
-      .within(() => {
-        cy.get(".servers select").should(
-          "have.text",
-          `${baseUrl} - Generated server url`
-        );
-        cy.get(".swagger-ui .title", { timeout: 10000 }).should(
-          "contain",
-          "OpenAPI definition"
-        );
-      });
+    cy.clickMenu("Swagger");
+    cy.clickMenu("API");
+    cy.checkUrl("/docs/docs");
+
+    cy.withinIframe("iframe", () => {
+      cy.checkElementText(
+        ".servers select",
+        `${baseUrl} - Generated server url`
+      );
+      cy.checkElementContain(".swagger-ui .title", "OpenAPI definition");
+    });
   });
 
   it("Home", () => {
     //navigate first to Tasks page
-    cy.contains("Entities").click();
-    cy.contains("Task").click();
-    cy.contains("Create a new Task").should("be.visible");
+    cy.clickMenu("Entities");
+    cy.clickMenu("Task");
+    cy.checkElementVisible("Create a new Task");
     //navidate back to Home page
-    cy.contains("Home").click();
-    cy.url().should("not.contain", "/task");
-    cy.contains("Create a new Task").should("not.exist");
-    cy.contains("Refresh list").should("not.exist");
+    cy.clickMenu("Home");
+    cy.checkNotUrl("/task");
+    cy.checkElementNotExist("Create a new Task");
+    cy.checkElementNotExist("Refresh list");
   });
 
   context("check languages", () => {
     it("French", () => {
-      cy.contains("English").click();
-      cy.contains("Français").click();
-      cy.contains("Accueil").should("be.visible");
-      cy.contains("Entités").should("be.visible");
-      cy.contains("Français").should("be.visible");
-      cy.contains("Compte").should("be.visible");
+      cy.clickMenu("English");
+      cy.clickMenu("Français");
+      cy.checkElementVisible("Accueil");
+      cy.checkElementVisible("Entités");
+      cy.checkElementVisible("Français");
+      cy.checkElementVisible("Compte");
     });
     it("English", () => {
       //switch to different from English first
-      cy.contains("English").click();
-      cy.contains("Français").click();
+      cy.clickMenu("English");
+      cy.clickMenu("Français");
       //now check English link
-      cy.contains("Français").click();
-      cy.contains("English").click();
-      cy.contains("Home").should("be.visible");
-      cy.contains("Entities").should("be.visible");
-      cy.contains("English").should("be.visible");
-      cy.contains("Account").should("be.visible");
+      cy.clickMenu("Français");
+      cy.clickMenu("English");
+      cy.checkElementVisible("Home");
+      cy.checkElementVisible("Entities");
+      cy.checkElementVisible("English");
+      cy.checkElementVisible("Account");
     });
 
     it("Russian", () => {
-      cy.contains("English").click();
-      cy.contains("Русский").click();
-      cy.contains("Главная").should("be.visible");
-      cy.contains("Сущности").should("be.visible");
-      cy.contains("Русский").should("be.visible");
-      cy.contains("Профиль").should("be.visible");
+      cy.clickMenu("English");
+      cy.clickMenu("Русский");
+      cy.checkElementVisible("Главная");
+      cy.checkElementVisible("Сущности");
+      cy.checkElementVisible("Русский");
+      cy.checkElementVisible("Профиль");
     });
 
     it("Ukrainian", () => {
-      cy.contains("English").click();
-      cy.contains("Українська").click();
-      cy.contains("Головна").should("be.visible");
-      cy.contains("Сутності").should("be.visible");
-      cy.contains("Українська").should("be.visible");
-      cy.contains("Профіль").should("be.visible");
+      cy.clickMenu("English");
+      cy.clickMenu("Українська");
+      cy.checkElementVisible("Головна");
+      cy.checkElementVisible("Сутності");
+      cy.checkElementVisible("Українська");
+      cy.checkElementVisible("Профіль");
     });
   });
   it("Account>Settings", () => {
-    cy.contains("Account").click();
-    cy.contains("Settings").click();
-    cy.url().should("contain", "/account/settings");
-    cy.contains(`User settings for [${username}]`).should("be.visible");
+    cy.clickMenu("Account");
+    cy.clickMenu("Settings");
+    cy.checkUrl("/account/settings");
+    cy.checkElementVisible(`User settings for [${username}]`);
   });
 
   it("Account>Password", () => {
-    cy.contains("Account").click();
-    cy.contains("Password").click();
-    cy.url().should("contain", "/account/password");
-    cy.contains(`Password for [${username}]`).should("be.visible");
+    cy.clickMenu("Account");
+    cy.clickMenu("Password");
+    cy.checkUrl("/account/password");
+    cy.checkElementVisible(`Password for [${username}]`);
   });
 
   it("Account>Sign out", () => {
-    cy.contains("Account").click();
-    cy.contains("Sign out").click();
-    cy.url().should("contain", "/logout");
-    cy.contains(`Logged out successfully!`).should("be.visible");
+    cy.clickMenu("Account");
+    cy.clickMenu("Sign out");
+    cy.checkUrl("/logout");
+    cy.checkElementVisible(`Logged out successfully!`);
   });
 });

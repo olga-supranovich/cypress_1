@@ -33,6 +33,10 @@ Cypress.Commands.add("login", (username, password) => {
   cy.get("[type=submit]").click();
 });
 
+Cypress.Commands.add("clickElement", (selector) => {
+  cy.get(`${selector}`).click();
+});
+
 Cypress.Commands.add("clickMenu", (menuTitle) => {
   cy.contains(`${menuTitle}`).click();
 });
@@ -61,11 +65,18 @@ Cypress.Commands.add("checkElementContain", (selector, text) => {
   cy.get(`${selector}`).should("contain", `${text}`);
 });
 
-
 Cypress.Commands.add("withinIframe", (iframeSelector, callback) => {
-    cy.get(iframeSelector)
-      .its("0.contentDocument.body")
-      .should("not.be.empty")
-      .then(cy.wrap)
-      .within(callback);
-  });
+  cy.get(iframeSelector)
+    .its("0.contentDocument.body")
+    .should("not.be.empty")
+    .then(cy.wrap)
+    .within(callback);
+});
+
+Cypress.Commands.add("enterText", (selector, text) => {
+  if (text !== undefined && text !== null && text !== "") {
+    cy.get(`${selector}`).clear().type(`${text}`);
+  } else {
+    cy.get(`${selector}`).clear();
+  }
+});

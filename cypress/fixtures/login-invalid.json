@@ -1,0 +1,23 @@
+[
+  {
+    "username": "olga",
+    "password": "olga_su",
+    "message": "Failed to sign in!"
+  },
+  {
+    "username": "",
+    "password": "olga_su",
+    "message": "Username cannot be empty!"
+  },
+  {
+    "username": "olga_su",
+    "password": "qwe123",
+    "message": "Failed to sign in!"
+  },
+  {
+    "username": "olga_su",
+    "password": "",
+    "message": "Password cannot be empty!"
+  }
+
+]

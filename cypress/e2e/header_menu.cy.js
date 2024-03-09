@@ -8,8 +8,8 @@ describe("Check links in header menu", () => {
   });
 
   it("Entities>Task", () => {
-    cy.clickMenu("Entities");
-    cy.clickMenu("Task");
+    cy.clickMenu('Entities');
+    cy.clickMenu('Task');
     cy.checkUrl("/task");
     cy.checkElementVisible("Tasks");
     cy.checkElementVisible("Create a new Task");

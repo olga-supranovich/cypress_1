@@ -1,0 +1,79 @@
+[
+  {
+    "username": "",
+    "email": "olga_su@mail.com",
+    "password": "SecureP@ssw0rd",
+    "passwordConfirm": "SecureP@ssw0rd",
+    "message": "Your username is required."
+  },
+  {
+    "username": "this_is_an_extremely_long_username_with_more_than_fifty_characters",
+    "email": "olga_su@mail.com",
+    "password": "SecureP@ssw0rd",
+    "passwordConfirm": "SecureP@ssw0rd",
+    "message": "Your username cannot be longer than 50 characters."
+  },
+  {
+    "username": "olga su",
+    "email": "olga_su@mail.com",
+    "password": "SecureP@ssw0rd",
+    "passwordConfirm": "SecureP@ssw0rd",
+    "message": "Your username is invalid."
+  },
+  {
+    "username": "ольга",
+    "email": "olga_su@mail.com",
+    "password": "SecureP@ssw0rd",
+    "passwordConfirm": "SecureP@ssw0rd",
+    "message": "Your username is invalid."
+  },
+  {
+    "username": "user123",
+    "email": "",
+    "password": "SecureP@ssw0rd",
+    "passwordConfirm": "SecureP@ssw0rd",
+    "message": "Your email is required."
+  },
+  {
+    "username": "user123",
+    "email": "userexample.com",
+    "password": "SecureP@ssw0rd",
+    "passwordConfirm": "SecureP@ssw0rd",
+    "message": "Your email is invalid."
+  },
+  {
+    "username": "user123",
+    "email": "user123@test.com",
+    "password": "qwe",
+    "passwordConfirm": "qwe",
+    "message": "Your password is required to be at least 4 characters."
+  },
+  {
+    "username": "user123",
+    "email": "user123@test.com",
+    "password": "this_is_an_extremely_long_password_with_more_than_fifty_characters",
+    "passwordConfirm": "this_is_an_extremely_long_password_with_more_than_fifty_characters",
+    "message": "Your password cannot be longer than 50 characters."
+  },
+  {
+    "username": "user123",
+    "email": "user123@test.com",
+    "password": "",
+    "passwordConfirm": "SecureP@ssw0rd",
+    "message": "Your password is required."
+  },
+  {
+    "username": "user123",
+    "email": "user123@test.com",
+    "password": "SecureP@ssw0rd",
+    "passwordConfirm": "",
+    "message": "Your confirmation password is required."
+  },
+  {
+    "username": "user123",
+    "email": "user123@test.com",
+    "password": "password123",
+    "passwordConfirm": "password456",
+    "message": "The password and its confirmation do not match!"
+  }
+]

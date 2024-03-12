@@ -31,6 +31,7 @@ Cypress.Commands.add("login", (username, password) => {
   cy.get("#username").type(`${username}`);
   cy.get("#password").type(`${password}`);
   cy.get("[type=submit]").click();
+  cy.contains('Account').should("be.visible");
 });
 
 Cypress.Commands.add("clickElement", (selector) => {
@@ -80,3 +81,28 @@ Cypress.Commands.add("enterText", (selector, text) => {
     cy.get(`${selector}`).clear();
   }
 });
+
+Cypress.Commands.add("changePasswordRequest", (oldPassword, newPassword) => {
+cy.request({
+    method: "POST",
+    headers: {
+      Authorization:
+        `Bearer ${Cypress.env('userToken')}`,
+    },
+    body: {
+      currentPassword: oldPassword,
+      newPassword: newPassword,
+    },
+    url:`${Cypress.config('baseUrl')}/api/account/change-password`
+  }).then((response) => {
+      expect(response.status).to.equal(200)
+  });
+})
+
+Cypress.Commands.overwrite('type', (originalFn, subject, str, options) => { 
+    if (str !== '') {
+      return originalFn(subject, str, options)
+    }
+  
+    return subject
+  })

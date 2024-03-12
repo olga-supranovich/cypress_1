@@ -12,6 +12,7 @@ module.exports = defineConfig({
       password: "olga_su",
       adminUsername: "admin_automation",
       adminPassword: "admin_automation",
+      userToken: "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJvbGdhX3N1IiwiZXhwIjoxNzEyNzcxNDkyLCJhdXRoIjoiUk9MRV9VU0VSX1NUVURFTlQiLCJpYXQiOjE3MTAxNzk0OTJ9.IiDz-7OEI66pBp8yu_xX24NrdWuijwRMDUw9ScVxcLYjZIpHAq_544GF3sy9eMs3VBG4auAGJxkOVQ1UA4sZiA"
     },
   },
 });

@@ -1,22 +1,24 @@
 const registerDataValid = require("../fixtures/register-valid.json");
 const registerDataInvalid = require("../fixtures/register-invalid.json");
 
+import { AccountPage } from "../pages/accountPage.js";
+import { LoginPage } from "../pages/loginPage.js";
+import { StartPage } from "../pages/startPage.js";
+import { RegisterPage } from "../pages/registerPage.js";
+
 describe("Check Register form", () => {
   const baseUrl = Cypress.config("baseUrl");
   const adminUsername = Cypress.env("adminUsername");
   const adminPassword = Cypress.env("adminPassword");
-  const usernameField = '[data-cy="username"]';
-  const emailField = '[data-cy="email"]';
-  const passwordField = '[data-cy="firstPassword"]';
-  const passwordConfirmField = '[data-cy="secondPassword"]';
-  const invalidFeedback = ".invalid-feedback";
+
+  let startPage = new StartPage();
+  let registerPage = new RegisterPage();
 
   let adminToken;
 
   beforeEach(() => {
     cy.visit("/");
-    cy.clickMenu("Account");
-    cy.clickMenu("Register");
+    startPage.gotoRegisterPage();
 
     cy.request("POST", "/api/authenticate", {
       username: `${adminUsername}`,
@@ -42,14 +44,14 @@ describe("Check Register form", () => {
 
   it("Happy path", () => {
     registerDataValid.forEach((user) => {
-      cy.enterText(usernameField, user.username);
-      cy.enterText(emailField, user.email);
-      cy.enterText(passwordField, user.password);
-      cy.enterText(passwordConfirmField, user.passwordConfirm);
-
-      //check status code as there is no message user has been created
       cy.intercept("POST", "/api/register").as("register");
-      cy.clickElement('[data-cy="submit"]');
+      registerPage.register(
+        user.username,
+        user.email,
+        user.password,
+        user.passwordConfirm
+      );
+
       cy.wait("@register").its("response.statusCode").should("eq", 201);
     });
 
@@ -68,11 +70,13 @@ describe("Check Register form", () => {
 
   it("Sad path", () => {
     registerDataInvalid.forEach((user) => {
-      cy.enterText(usernameField, user.username);
-      cy.enterText(emailField, user.email);
-      cy.enterText(passwordField, user.password);
-      cy.enterText(passwordConfirmField, user.passwordConfirm);
-      cy.clickElement('[data-cy="submit"]');
+      registerPage.register(
+        user.username,
+        user.email,
+        user.password,
+        user.passwordConfirm
+      );
+
       cy.checkElementVisible(`${user.message}`);
     });
   });

@@ -8,6 +8,7 @@ describe("Change password", () => {
   const oldPassword = Cypress.env("password");
   const username = Cypress.env("username");
   let newPassword = faker.internet.password({ length: 10 });
+
   let passwordPage = new PasswordPage();
   let accountPage = new AccountPage();
   let loginPage = new LoginPage();
@@ -30,9 +31,10 @@ describe("Change password", () => {
     //change password back
     accountPage.gotoPasswordPage();
     passwordPage.changePassword(newPassword, oldPassword);
+    accountPage.gotoLogout();
   });
 
-  it.only("User can login with updated password - API + UI", () => {
+  it("User can login with updated password - API + UI", () => {
     cy.changePasswordRequest(oldPassword, newPassword);
 
     //check user can login with updated password

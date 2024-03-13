@@ -6,10 +6,9 @@
   "scripts": {
     "cy:open": "npx cypress open",
     "cy:run": "npx cypress run",
-    "run:test:chrome": "npm run cy:run -- --spec 'cypress/e2e/1_test_verifier.cy.js' --browser chrome",
-    "run:test:electron": "npm run cy:run -- --spec 'cypress/e2e/header_menu.cy.js' --browser electron",
-    "run:all:tests": "npm run run:test:chrome && npm run run:test:electron",
-    "run:all:tests:dashboard": "npm run run:test:chrome -- --record --key f3e65b6c-cc36-4439-a011-b998c5093094 && npm run run:test:electron -- --record --key f3e65b6c-cc36-4439-a011-b998c5093094",
+    "run:test:chrome": "npm run cy:run -- --spec 'cypress/e2e/1_test_verifier.cy.js' --browser chrome --record --key f3e65b6c-cc36-4439-a011-b998c5093094 --group Chrome --ci-build-id 'test'",
+    "run:test:electron": "npm run cy:run -- --spec 'cypress/e2e/header_menu.cy.js' --browser electron --record --key f3e65b6c-cc36-4439-a011-b998c5093094 --group Electron --ci-build-id 'test'",
+    "run:all:tests:dashboard": "npm run run:test:chrome && npm run run:test:electron",
     "dashboard:staging": "npm run cy:dashboard -- --config-file cypress-staging.config.js",
     "cy:open:staging": "npm run cy:open -- --config-file cypress-staging.config.js"
   },

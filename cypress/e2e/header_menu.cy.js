@@ -1,15 +1,28 @@
+import { PasswordPage } from "../pages/passwordPage.js";
+import { AccountPage } from "../pages/accountPage.js";
+import { LoginPage } from "../pages/loginPage.js";
+import { StartPage } from "../pages/startPage.js";
+
 describe("Check links in header menu", () => {
   const baseUrl = Cypress.config("baseUrl");
   const username = Cypress.env("username");
   const password = Cypress.env("password");
 
+  let passwordPage = new PasswordPage();
+  let accountPage = new AccountPage();
+  let loginPage = new LoginPage();
+  let startPage = new StartPage();
+
   beforeEach(() => {
-    cy.login(username, password);
+    cy.visit("/");
+    startPage.gotoLoginPage();
+    loginPage.login(username, password);
   });
 
   it("Entities>Task", () => {
-    cy.clickMenu('Entities');
-    cy.clickMenu('Task');
+    // cy.clickMenu('Entities');
+    // cy.clickMenu('Task');
+    accountPage.gotoTask();
     cy.checkUrl("/task");
     cy.checkElementVisible("Tasks");
     cy.checkElementVisible("Create a new Task");
@@ -17,8 +30,9 @@ describe("Check links in header menu", () => {
   });
 
   it("Entities>User Task", () => {
-    cy.clickMenu("Entities");
-    cy.clickMenu("User Task");
+    // cy.clickMenu("Entities");
+    // cy.clickMenu("User Task");
+    accountPage.gotoUserTask();
     cy.checkUrl("/user-task");
     cy.checkElementVisible("User Tasks");
     cy.checkElementVisible("Create a new User Task");
@@ -26,8 +40,9 @@ describe("Check links in header menu", () => {
   });
 
   it("Swagger>API", () => {
-    cy.clickMenu("Swagger");
-    cy.clickMenu("API");
+    // cy.clickMenu("Swagger");
+    // cy.clickMenu("API");
+    accountPage.gotoAPI();
     cy.checkUrl("/docs/docs");
 
     cy.withinIframe("iframe", () => {
@@ -41,11 +56,12 @@ describe("Check links in header menu", () => {
 
   it("Home", () => {
     //navigate first to Tasks page
-    cy.clickMenu("Entities");
-    cy.clickMenu("Task");
+    // cy.clickMenu("Entities");
+    // cy.clickMenu("Task");
+    accountPage.gotoTask();
     cy.checkElementVisible("Create a new Task");
     //navidate back to Home page
-    cy.clickMenu("Home");
+    accountPage.goHome();
     cy.checkNotUrl("/task");
     cy.checkElementNotExist("Create a new Task");
     cy.checkElementNotExist("Refresh list");
@@ -92,22 +108,25 @@ describe("Check links in header menu", () => {
     });
   });
   it("Account>Settings", () => {
-    cy.clickMenu("Account");
-    cy.clickMenu("Settings");
+    // cy.clickMenu("Account");
+    // cy.clickMenu("Settings");
+    accountPage.gotoSettings();
     cy.checkUrl("/account/settings");
     cy.checkElementVisible(`User settings for [${username}]`);
   });
 
   it("Account>Password", () => {
-    cy.clickMenu("Account");
-    cy.clickMenu("Password");
+    // cy.clickMenu("Account");
+    // cy.clickMenu("Password");
+    accountPage.gotoPasswordPage();
     cy.checkUrl("/account/password");
     cy.checkElementVisible(`Password for [${username}]`);
   });
 
   it("Account>Sign out", () => {
-    cy.clickMenu("Account");
-    cy.clickMenu("Sign out");
+    // cy.clickMenu("Account");
+    // cy.clickMenu("Sign out");
+    accountPage.gotoLogout();
     cy.checkUrl("/logout");
     cy.checkElementVisible(`Logged out successfully!`);
   });

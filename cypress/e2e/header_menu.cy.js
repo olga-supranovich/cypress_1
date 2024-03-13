@@ -4,12 +4,13 @@ describe("Check links in header menu", () => {
   const password = Cypress.env("password");
 
   beforeEach(() => {
+    cy.visit("/");
+    cy.gotoLoginPage();
     cy.login(username, password);
   });
 
   it("Entities>Task", () => {
-    cy.clickMenu('Entities');
-    cy.clickMenu('Task');
+    cy.gotoTask();
     cy.checkUrl("/task");
     cy.checkElementVisible("Tasks");
     cy.checkElementVisible("Create a new Task");
@@ -17,8 +18,7 @@ describe("Check links in header menu", () => {
   });
 
   it("Entities>User Task", () => {
-    cy.clickMenu("Entities");
-    cy.clickMenu("User Task");
+    cy.gotoUserTask();
     cy.checkUrl("/user-task");
     cy.checkElementVisible("User Tasks");
     cy.checkElementVisible("Create a new User Task");
@@ -26,8 +26,7 @@ describe("Check links in header menu", () => {
   });
 
   it("Swagger>API", () => {
-    cy.clickMenu("Swagger");
-    cy.clickMenu("API");
+    cy.gotoAPI();
     cy.checkUrl("/docs/docs");
 
     cy.withinIframe("iframe", () => {
@@ -41,11 +40,10 @@ describe("Check links in header menu", () => {
 
   it("Home", () => {
     //navigate first to Tasks page
-    cy.clickMenu("Entities");
-    cy.clickMenu("Task");
+    cy.gotoTask();
     cy.checkElementVisible("Create a new Task");
     //navidate back to Home page
-    cy.clickMenu("Home");
+    cy.goHome();
     cy.checkNotUrl("/task");
     cy.checkElementNotExist("Create a new Task");
     cy.checkElementNotExist("Refresh list");
@@ -92,22 +90,19 @@ describe("Check links in header menu", () => {
     });
   });
   it("Account>Settings", () => {
-    cy.clickMenu("Account");
-    cy.clickMenu("Settings");
+    cy.gotoSettings();
     cy.checkUrl("/account/settings");
     cy.checkElementVisible(`User settings for [${username}]`);
   });
 
   it("Account>Password", () => {
-    cy.clickMenu("Account");
-    cy.clickMenu("Password");
+    cy.gotoPasswordPage();
     cy.checkUrl("/account/password");
     cy.checkElementVisible(`Password for [${username}]`);
   });
 
   it("Account>Sign out", () => {
-    cy.clickMenu("Account");
-    cy.clickMenu("Sign out");
+    cy.gotoLogout();
     cy.checkUrl("/logout");
     cy.checkElementVisible(`Logged out successfully!`);
   });

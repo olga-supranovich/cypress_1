@@ -2,5 +2,11 @@
   "accountLink": "[data-cy='accountMenu']",
   "passwordLink": "[data-cy='passwordItem']",
   "entitiesLink": "[data-cy='entity']",
-  "signoutLink": "[data-cy='logout']"
+  "signoutLink": "[data-cy='logout']",
+  "taskLink": "[href='/task']",
+  "userTaskLink": "[href='/user-task']",
+  "swaggerLink": "[data-cy='docsMenu']",
+  "apiLink": "[href='/docs/docs']",
+  "homeLink": "Home",
+  "settingsLink": "[data-cy='settings']"
 }

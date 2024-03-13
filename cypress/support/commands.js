@@ -24,16 +24,6 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 
-Cypress.Commands.add("login", (username, password) => {
-  cy.visit("");
-  cy.contains("Account").click();
-  cy.contains("Sign in").click();
-  cy.get("#username").type(`${username}`);
-  cy.get("#password").type(`${password}`);
-  cy.get("[type=submit]").click();
-  cy.contains('Account').should("be.visible");
-});
-
 Cypress.Commands.add("clickElement", (selector) => {
   cy.get(`${selector}`).click();
 });
@@ -83,26 +73,25 @@ Cypress.Commands.add("enterText", (selector, text) => {
 });
 
 Cypress.Commands.add("changePasswordRequest", (oldPassword, newPassword) => {
-cy.request({
+  cy.request({
     method: "POST",
     headers: {
-      Authorization:
-        `Bearer ${Cypress.env('userToken')}`,
+      Authorization: `Bearer ${Cypress.env("userToken")}`,
     },
     body: {
       currentPassword: oldPassword,
       newPassword: newPassword,
     },
-    url:`${Cypress.config('baseUrl')}/api/account/change-password`
+    url: `${Cypress.config("baseUrl")}/api/account/change-password`,
   }).then((response) => {
-      expect(response.status).to.equal(200)
+    expect(response.status).to.equal(200);
   });
-})
+});
 
-Cypress.Commands.overwrite('type', (originalFn, subject, str, options) => { 
-    if (str !== '') {
-      return originalFn(subject, str, options)
-    }
-  
-    return subject
-  })
+Cypress.Commands.overwrite("type", (originalFn, subject, str, options) => {
+  if (str !== "") {
+    return originalFn(subject, str, options);
+  }
+
+  return subject;
+});

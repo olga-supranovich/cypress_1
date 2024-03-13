@@ -1,0 +1,5 @@
+{
+  "accountLink": "[data-cy='accountMenu']",
+  "signinLink": "[data-cy='login']",
+  "registerLink": "[data-cy='register']"
+}

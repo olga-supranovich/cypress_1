@@ -1,24 +1,15 @@
 const registerDataValid = require("../fixtures/register-valid.json");
 const registerDataInvalid = require("../fixtures/register-invalid.json");
 
-import { AccountPage } from "../pages/accountPage.js";
-import { LoginPage } from "../pages/loginPage.js";
-import { StartPage } from "../pages/startPage.js";
-import { RegisterPage } from "../pages/registerPage.js";
-
 describe("Check Register form", () => {
   const baseUrl = Cypress.config("baseUrl");
   const adminUsername = Cypress.env("adminUsername");
   const adminPassword = Cypress.env("adminPassword");
-
-  let startPage = new StartPage();
-  let registerPage = new RegisterPage();
-
   let adminToken;
 
   beforeEach(() => {
     cy.visit("/");
-    startPage.gotoRegisterPage();
+    cy.gotoRegisterPage();
 
     cy.request("POST", "/api/authenticate", {
       username: `${adminUsername}`,
@@ -45,7 +36,7 @@ describe("Check Register form", () => {
   it("Happy path", () => {
     registerDataValid.forEach((user) => {
       cy.intercept("POST", "/api/register").as("register");
-      registerPage.register(
+      cy.register(
         user.username,
         user.email,
         user.password,
@@ -70,7 +61,7 @@ describe("Check Register form", () => {
 
   it("Sad path", () => {
     registerDataInvalid.forEach((user) => {
-      registerPage.register(
+      cy.register(
         user.username,
         user.email,
         user.password,

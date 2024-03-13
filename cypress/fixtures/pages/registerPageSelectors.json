@@ -1,0 +1,7 @@
+{
+  "usernameField": "[data-cy='username']",
+  "emailField": "[data-cy='email']",
+  "newPasswordField": "[data-cy='firstPassword']",
+  "confirmPasswordField": "[data-cy='secondPassword']",
+  "submitButton": "[data-cy='submit']"
+}

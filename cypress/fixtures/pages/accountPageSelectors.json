@@ -1,0 +1,6 @@
+{
+  "accountLink": "[data-cy='accountMenu']",
+  "passwordLink": "[data-cy='passwordItem']",
+  "entitiesLink": "[data-cy='entity']",
+  "signoutLink": "[data-cy='logout']"
+}

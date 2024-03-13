@@ -1,37 +1,31 @@
 import { faker } from "@faker-js/faker";
-import { PasswordPage } from "../pages/passwordPage.js";
-import { AccountPage } from "../pages/accountPage.js";
-import { LoginPage } from "../pages/loginPage.js";
-import { StartPage } from "../pages/startPage.js";
+
+const accountPageElements = require("../fixtures/pages/accountPageSelectors.json");
 
 describe("Change password", () => {
   const oldPassword = Cypress.env("password");
   const username = Cypress.env("username");
   let newPassword = faker.internet.password({ length: 10 });
 
-  let passwordPage = new PasswordPage();
-  let accountPage = new AccountPage();
-  let loginPage = new LoginPage();
-  let startPage = new StartPage();
-
   it("User can login with updated password - UI", () => {
     cy.visit("/");
 
     cy.log(newPassword);
-    startPage.gotoLoginPage();
-    loginPage.login(username, oldPassword);
-    accountPage.gotoPasswordPage();
-    passwordPage.changePassword(oldPassword, newPassword);
-    accountPage.gotoLogout();
+    // startPage.gotoLoginPage();
+    cy.gotoLoginPage();
+    cy.login(username, oldPassword);
+    cy.gotoPasswordPage();
+    cy.changePassword(oldPassword, newPassword);
+    cy.gotoLogout();
 
     //check user can login with updated password
-    startPage.gotoLoginPage();
-    loginPage.login(username, newPassword);
+    cy.gotoLoginPage();
+    cy.login(username, newPassword);
 
     //change password back
-    accountPage.gotoPasswordPage();
-    passwordPage.changePassword(newPassword, oldPassword);
-    accountPage.gotoLogout();
+    cy.gotoPasswordPage();
+    cy.changePassword(newPassword, oldPassword);
+    cy.gotoLogout();
   });
 
   it("User can login with updated password - API + UI", () => {
@@ -39,14 +33,14 @@ describe("Change password", () => {
 
     //check user can login with updated password
     cy.visit("/");
-    startPage.gotoLoginPage();
-    loginPage.login(username, newPassword);
-    accountPage.gotoLogout();
+    cy.gotoLoginPage();
+    cy.login(username, newPassword);
+    cy.gotoLogout();
 
     //change password back
     cy.changePasswordRequest(newPassword, oldPassword);
-    startPage.gotoLoginPage();
-    loginPage.login(username, oldPassword);
-    accountPage.elements.entitiesLink().should("be.visible");
+    cy.gotoLoginPage();
+    cy.login(username, oldPassword);
+    cy.get(accountPageElements.entitiesLink).should("be.visible");
   });
 });

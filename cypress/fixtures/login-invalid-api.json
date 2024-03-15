@@ -1,0 +1,22 @@
+[
+  {
+    "username": "olga",
+    "password": "olga_su",
+    "status": 401
+  },
+  {
+    "username": "",
+    "password": "olga_su",
+    "status": 400
+  },
+  {
+    "username": "olga_su",
+    "password": "qwe123",
+    "status": 401
+  },
+  {
+    "username": "olga_su",
+    "password": "",
+    "status": 400
+  }
+]
